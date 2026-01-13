@@ -20,3 +20,4 @@ Run the script to start the web server:
 ```bash
 python3 csv_script_manager.py
 ```
+Then browse to http://localhost:8000
