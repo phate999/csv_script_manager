@@ -15,9 +15,15 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 
 ## Usage
 
+Install requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
 Run the script to start the web server:
 
 ```bash
-python3 csv_script_manager.py
+python csv_script_manager.py
 ```
 Then browse to http://localhost:8000
