@@ -15,7 +15,8 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 
 <img width="1645" height="854" alt="image" src="https://github.com/user-attachments/assets/42b3be8d-9b11-45f9-85dc-2e7b6118a85c" />
 <img width="1645" height="854" alt="image" src="https://github.com/user-attachments/assets/22309051-02be-49c4-a320-81e72facd4c6" />
-<img width="1645" height="854" alt="image" src="https://github.com/user-attachments/assets/86dbf08b-4570-43c9-a6ae-96e3737d18ba" />
+<img width="1631" height="857" alt="image" src="https://github.com/user-attachments/assets/d8b540b5-bc0b-4e84-bcf7-144c4f74c284" />
+
 
 ## Installation
 
