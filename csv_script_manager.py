@@ -7,6 +7,7 @@ Works on Windows, macOS, and Linux.
 
 import json
 import os
+import re
 import subprocess
 import threading
 import requests
@@ -327,6 +328,48 @@ class CSVEditorHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(response)
     
+    def extract_docstring(self, filepath):
+        """Extract the first triple-quoted docstring from a Python file."""
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Look for triple-quoted strings (both """ and ''')
+            # Match triple double quotes or triple single quotes
+            pattern = r'"""(.*?)"""|\'\'\'(.*?)\'\'\''
+            matches = re.findall(pattern, content, re.DOTALL)
+            
+            if matches:
+                # Get the first match (could be from either group)
+                docstring = matches[0][0] if matches[0][0] else matches[0][1]
+                # Clean up the docstring - remove leading/trailing whitespace from each line
+                lines = docstring.strip().split('\n')
+                # Remove leading whitespace that's common to all lines
+                if len(lines) > 1:
+                    # Find minimum leading whitespace (excluding first and empty lines)
+                    min_indent = float('inf')
+                    for line in lines[1:]:
+                        if line.strip():
+                            indent = len(line) - len(line.lstrip())
+                            min_indent = min(min_indent, indent)
+                    
+                    # Remove common indent from all lines except first
+                    if min_indent != float('inf'):
+                        cleaned_lines = [lines[0]]
+                        for line in lines[1:]:
+                            if line.strip():
+                                cleaned_lines.append(line[min_indent:])
+                            else:
+                                cleaned_lines.append('')
+                        return '\n'.join(cleaned_lines).strip()
+                
+                return docstring.strip()
+            
+            return None
+        except Exception as e:
+            print(f'Error extracting docstring from {filepath}: {str(e)}')
+            return None
+    
     def handle_list_scripts(self):
         """List all available Python scripts in the scripts directory."""
         try:
@@ -339,9 +382,11 @@ class CSVEditorHandler(SimpleHTTPRequestHandler):
                     if filename.endswith('.py'):
                         filepath = os.path.join(self.scripts_dir, filename)
                         if os.path.isfile(filepath):
+                            description = self.extract_docstring(filepath)
                             scripts.append({
                                 'name': filename,
-                                'path': filepath
+                                'path': filepath,
+                                'description': description
                             })
             
             self.send_json_response({'scripts': scripts})
@@ -513,6 +558,51 @@ exec(compile(open(r'{script_path}').read(), r'{script_path}', 'exec'))
         except Exception as e:
             print(f'Error creating script: {str(e)}')
             self.send_error_response(f'Error creating script: {str(e)}')
+    
+    def handle_delete_script(self):
+        """Delete a Python script."""
+        try:
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            
+            data = json.loads(post_data.decode('utf-8'))
+            script_name = data.get('script_name', '')
+            
+            if not script_name:
+                self.send_error_response('Script name required')
+                return
+            
+            # Security: prevent directory traversal
+            script_name = os.path.basename(script_name)
+            
+            # Ensure .py extension
+            if not script_name.endswith('.py'):
+                script_name += '.py'
+            
+            script_path = os.path.join(self.scripts_dir, script_name)
+            
+            # Verify script exists and is in scripts directory
+            if not os.path.exists(script_path):
+                self.send_error_response(f'Script not found: {script_name}')
+                return
+            
+            # Verify it's actually in the scripts directory (prevent path traversal)
+            if not os.path.abspath(script_path).startswith(os.path.abspath(self.scripts_dir)):
+                self.send_error_response('Invalid script path')
+                return
+            
+            # Delete the script file
+            os.remove(script_path)
+            
+            print(f'Script deleted: {script_name}')
+            self.send_json_response({
+                'success': True,
+                'script_name': script_name,
+                'message': 'Script deleted successfully'
+            })
+        except Exception as e:
+            print(f'Error deleting script: {str(e)}')
+            self.send_error_response(f'Error deleting script: {str(e)}')
     
     def handle_get_example_script(self):
         """Get the content of the example.py script."""
