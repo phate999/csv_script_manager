@@ -959,52 +959,8 @@ if __name__ == '__main__':
             traceback.print_exc()
             self.send_error_response('Error setting API keys')
 
-def ensure_ncm_library():
-    """
-    Ensure the latest ncm.py library is available in the same folder as this script.
-    Downloads from GitHub if missing or updates if needed.
-    """
-    # Get the directory where this script is located
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    ncm_path = os.path.join(script_dir, 'ncm.py')
-    
-    ncm_url = 'https://raw.githubusercontent.com/cradlepoint/api-samples/refs/heads/master/ncm/ncm/ncm.py'
-    
-    try:
-        print('Checking for ncm.py library...')
-        
-        # Try to download the latest version
-        response = requests.get(ncm_url, timeout=10, headers={'User-Agent': 'CSV-Editor/1.0'})
-        response.raise_for_status()
-        
-        # Write to file
-        with open(ncm_path, 'w', encoding='utf-8') as f:
-            f.write(response.text)
-        
-        print(f'ncm.py library updated successfully at: {ncm_path}')
-        return True
-        
-    except requests.exceptions.RequestException as e:
-        print(f'Warning: Could not download ncm.py from GitHub: {str(e)}')
-        
-        # If file doesn't exist, this is a problem
-        if not os.path.exists(ncm_path):
-            print('Error: ncm.py not found and could not be downloaded. Some scripts may not work.')
-            return False
-        else:
-            print(f'Using existing ncm.py at: {ncm_path}')
-            return True
-    except Exception as e:
-        print(f'Error ensuring ncm.py library: {str(e)}')
-        if not os.path.exists(ncm_path):
-            print('Warning: ncm.py not found. Some scripts may not work.')
-        return False
-
 # App starts here
 print('Starting CSV Editor...')
-
-# Ensure ncm.py library is available before starting server
-ensure_ncm_library()
 
 server = HTTPServer(('', PORT), CSVEditorHandler)
 print(f'CSV Editor web server started on port {PORT}')
