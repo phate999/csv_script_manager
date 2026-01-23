@@ -34,19 +34,19 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 
 3. **Create a virtual environment** (recommended):
    ```bash
-   python -m venv venv
+   python -m venv .venv
    ```
 
 4. **Activate the virtual environment**:
    
    On Windows:
    ```bash
-   venv\Scripts\activate
+   .venv\Scripts\activate
    ```
    
    On macOS/Linux:
    ```bash
-   source venv/bin/activate
+   source .venv/bin/activate
    ```
 
 5. **Install Python dependencies**:
@@ -68,7 +68,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    http://localhost:8000
    ```
 
-**Note**: On macOS and Linux, if `python` doesn't work, use `python3` instead (e.g., `python3 -m venv venv`, `python3 csv_script_manager.py`).
+**Note**: On macOS and Linux, if `python` doesn't work, use `python3` instead (e.g., `python3 -m venv .venv`, `python3 csv_script_manager.py`).
 
 ## Usage
 
