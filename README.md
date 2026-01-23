@@ -68,12 +68,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 
 5. **Install Python dependencies**:
    
-   **Windows:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-   **macOS/Linux:**
+   **Windows/macOS/Linux:**
    ```bash
    pip install -r requirements.txt
    ```
