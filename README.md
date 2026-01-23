@@ -25,50 +25,73 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 
 2. **Navigate to the project folder**:
    
-   Using command line:
+   **Windows:**
    ```bash
    cd csv_script_manager
    ```
+   Or right-click in the project folder in File Explorer and select "Open in Terminal" or "Open PowerShell window here".
    
-   On Windows, you can also right-click in the project folder in File Explorer and select "Open in Terminal" or "Open PowerShell window here" to open a command prompt directly in the project folder.
+   **macOS/Linux:**
+   ```bash
+   cd csv_script_manager
+   ```
 
 3. **Create a virtual environment** (recommended):
+   
+   **Windows:**
    ```bash
    python -m venv .venv
+   ```
+   
+   **macOS/Linux:**
+   ```bash
+   python3 -m venv .venv
    ```
 
 4. **Activate the virtual environment**:
    
-   On Windows:
+   **Windows:**
    ```bash
    .venv\Scripts\activate
    ```
    
-   On macOS/Linux:
+   **macOS/Linux:**
    ```bash
    source .venv/bin/activate
    ```
 
 5. **Install Python dependencies**:
+   
+   **Windows:**
    ```bash
    pip install -r requirements.txt
    ```
-
+   
+   **macOS/Linux:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
    This will install:
    - `requests` - For HTTP requests and downloading scripts from GitHub
    - `ncm` - Cradlepoint NCM API client library
 
 6. **Run the application**:
+   
+   **Windows:**
    ```bash
    python csv_script_manager.py
+   ```
+   
+   **macOS/Linux:**
+   ```bash
+   python3 csv_script_manager.py
    ```
 
 7. **Open your web browser** and navigate to:
    ```
    http://localhost:8000
    ```
-
-**Note**: On macOS and Linux, if `python` doesn't work, use `python3` instead (e.g., `python3 -m venv .venv`, `python3 csv_script_manager.py`).
 
 ## Usage
 
