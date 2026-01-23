@@ -31,16 +31,11 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    ```
    Or right-click in the project folder in File Explorer and select "Open in Terminal" or "Open PowerShell window here".
    
-   **macOS:**
+   **macOS/linux:**
    ```bash
    cd csv_script_manager
    ```
    Or right-click on the project folder in Finder and select Services > New Terminal at Folder.
-   
-   **Linux:**
-   ```bash
-   cd csv_script_manager
-   ```
 
 3. **Create a virtual environment** (recommended):
    
