@@ -81,10 +81,10 @@ The CSV Script Manager:
 
 ### Column Names
 
-- **Case-insensitive matching**: Most scripts accept column names in any case (e.g., "MAC", "mac", "Mac Address")
+- **Case-insensitive matching**: Most scripts accept column names in any case (e.g., "MAC", "mac", "Mac Address").
 - **Multiple name variations**: Scripts often accept multiple column name formats:
-  - MAC addresses: "mac", "mac address", "mac_address", "MAC Address"
-  - Router IDs: "id", "router id", "router_id", "routerId"
+  - MAC addresses: "mac", "mac address", "mac_address", "macaddress", "MAC Address"
+  - Router IDs: "id", "router", "routerid", "router id", "router_id", "routerId"
   - Serial numbers: "serial_number", "serial number", "serial"
 
 ### Data Formatting
