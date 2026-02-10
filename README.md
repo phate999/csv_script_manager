@@ -81,7 +81,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    
    **macOS/Linux:**
    ```bash
-   python3 csv_script_manager.py
+   python csv_script_manager.py
    ```
 
 7. **Open your web browser** and navigate to:
@@ -132,12 +132,14 @@ csv_script_manager/
 ├── requirements.txt         # Python dependencies
 ├── csv_files/               # Directory for CSV files
 ├── scripts/                 # Directory for Python scripts
-│   ├── ncm_bulk_configure_devices.py
-│   ├── ncm_get_router_status.py
-│   ├── ncm_unregister_routers_batch.py
-│   ├── ncm_v3_create_users.py
-│   ├── ncm_v3_regrade_subscriptions_by_mac.py
-│   └── ncm_v3_unlicense_devices_by_mac.py
+│   ├── Configure Devices.py
+│   ├── Create NCX Sites.py
+│   ├── Create NCX Resources.py
+│   ├── Get Router Status.py
+│   ├── Unregister Routers Batch.py
+│   ├── Create Users.py
+│   ├── Regrade Subscriptions by MAC.py
+│   └── Unlicense Devices by MAC.py
 ├── static/                  # Web interface files
 │   ├── index.html
 │   ├── css/
