@@ -960,8 +960,8 @@ if __name__ == '__main__':
             self.send_error_response('Error setting API keys')
 
 # App starts here
-print('Starting CSV Editor...')
+print('Starting CSV Script Manager...')
 
 server = HTTPServer(('', PORT), CSVEditorHandler)
-print(f'CSV Editor web server started on port {PORT}')
+print(f'CSV Script Manager web server started on port {PORT}')
 server.serve_forever()
