@@ -631,7 +631,7 @@ def main():
     # Get CSV file path from command line argument
     if len(sys.argv) < 2:
         print("Error: No CSV file provided")
-        print("Usage: python3 script.py <csv_file_path>")
+        print("Usage: python script.py <csv_file_path>")
         sys.exit(1)
     
     csv_file = sys.argv[1]
