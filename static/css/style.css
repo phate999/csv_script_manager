@@ -275,7 +275,8 @@ body.tab-scripts .scripts-list-container {
 }
 
 .script-item.expanded .script-item-description {
-    max-height: 500px;
+    max-height: 800px; /* Allow longer instructions before clipping */
+    overflow-y: auto;  /* Scroll within description if it exceeds max-height */
     opacity: 1;
     border-top-color: var(--border-color);
     margin-top: 0.75rem;
