@@ -14,20 +14,13 @@ CSV Format:
         - serial_number: Serial number (used if id and mac not found)
     
     Alternative column names accepted:
-        - For ID: "id", "router", "routerid", "router id", "router_id"
+        - For ID: "id" (e.g. from NCM devices grid), "router", "routerid", "router id", "router_id"
         - For MAC: "mac", "mac address", "mac_address"
         - For Serial: "serial_number", "serial number", "serial"
     
     Example CSV:
         id,name,mac,serial_number
         1234567,My Router,003044A2CA75,WC2338TA003678
-
-Usage:
-    python "Get Router Status.py" <csv_file_path>
-
-Requirements:
-    - NCM API access (configured via ncm module)
-    - CSV file with at least one router identifier column
 """
 import sys
 import csv

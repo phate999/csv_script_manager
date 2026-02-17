@@ -37,31 +37,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    ```
    Or right-click on the project folder in Finder and select Services > New Terminal at Folder.
 
-3. **Create a virtual environment** (recommended):
-   
-   **Windows:**
-   ```bash
-   python -m venv .venv
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   python3 -m venv .venv
-   ```
-
-4. **Activate the virtual environment**:
-   
-   **Windows:**
-   ```bash
-   .venv\Scripts\activate
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   source .venv/bin/activate
-   ```
-
-5. **Install Python dependencies**:
+3. **Install Python dependencies**:
    
    **Windows/macOS/Linux:**
    ```bash
@@ -72,7 +48,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    - `requests` - For HTTP requests and downloading scripts from GitHub
    - `ncm` - Cradlepoint NCM API client library
 
-6. **Run the application**:
+4. **Run the application**:
    
    **Windows:**
    ```bash
@@ -84,7 +60,7 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    python csv_script_manager.py
    ```
 
-7. **Open your web browser** and navigate to:
+5. **Open your web browser** and navigate to:
    ```
    http://localhost:8000
    ```

@@ -408,13 +408,15 @@ class CSVEditorHandler(SimpleHTTPRequestHandler):
                 self.send_error_response('Script name required')
                 return
             
-            if not csv_filename:
+            no_csv = (csv_filename == '__NO_CSV__')
+            if not csv_filename and not no_csv:
                 self.send_error_response('CSV filename required')
                 return
             
             # Security: prevent directory traversal
             script_name = os.path.basename(script_name)
-            csv_filename = os.path.basename(csv_filename)
+            if not no_csv:
+                csv_filename = os.path.basename(csv_filename)
             
             # Build script path
             script_path = os.path.join(self.scripts_dir, script_name)
@@ -429,20 +431,23 @@ class CSVEditorHandler(SimpleHTTPRequestHandler):
                 self.send_error_response('Invalid script path')
                 return
             
-            # Build CSV file path
-            csv_filepath = os.path.join(self.csv_dir, csv_filename)
-            if not os.path.exists(csv_filepath):
-                self.send_error_response(f'CSV file not found: {csv_filename}')
-                return
+            # Build CSV file path (if needed)
+            if no_csv:
+                csv_filepath = ''
+            else:
+                csv_filepath = os.path.join(self.csv_dir, csv_filename)
+                if not os.path.exists(csv_filepath):
+                    self.send_error_response(f'CSV file not found: {csv_filename}')
+                    return
             
-            # Execute Python script with CSV filename as argument
+            # Execute Python script with CSV filename as argument (if provided)
             # Working directory is the app directory
             script_dir = os.path.dirname(os.path.abspath(__file__))
             
             print(f'Executing Python script: {script_name} with CSV file: {csv_filename}')
             
             try:
-                # Run Python script with timeout (30 seconds)
+                # Run Python script (no timeout; may run for an extended period)
                 # Detect Python command (python3 or python) for cross-platform compatibility
                 python_cmd = self._detect_python_command()
                 
@@ -454,7 +459,11 @@ import os
 # Add app directory to Python path so scripts can import from parent folder
 sys.path.insert(0, r'{script_dir}')
 # Execute the actual script with proper sys.argv
-sys.argv = [r'{script_path}', r'{csv_filepath}']
+csv_path = r'{csv_filepath}'
+if csv_path:
+    sys.argv = [r'{script_path}', csv_path]
+else:
+    sys.argv = [r'{script_path}']
 exec(compile(open(r'{script_path}').read(), r'{script_path}', 'exec'))
 '''
                 
@@ -468,8 +477,7 @@ exec(compile(open(r'{script_path}').read(), r'{script_path}', 'exec'))
                         [python_cmd, wrapper_path],
                         cwd=script_dir,
                         capture_output=True,
-                        text=True,
-                        timeout=30
+                        text=True
                     )
                 finally:
                     # Clean up wrapper script
@@ -493,7 +501,7 @@ exec(compile(open(r'{script_path}').read(), r'{script_path}', 'exec'))
                 
             except subprocess.TimeoutExpired:
                 print(f'Script execution timed out: {script_name}')
-                self.send_error_response('Script execution timed out (30 seconds)')
+                self.send_error_response('Script execution timed out (300 seconds)')
             except Exception as e:
                 print(f'Error executing script: {str(e)}')
                 self.send_error_response(f'Error executing script: {str(e)}')

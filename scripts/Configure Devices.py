@@ -9,7 +9,7 @@ also set device description, custom1, and custom2 fields when present in the CSV
 
 CSV Format:
     Required columns (case-insensitive, flexible names):
-        - Router ID: one of "id", "router", "routerid", "router id", or "router_id"
+        - Router ID: one of "id" (e.g. from NCM devices grid), "router", "routerid", "router id", or "router_id"
     
     Optional columns (used if present):
         - desc: Device description

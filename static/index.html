@@ -19,7 +19,8 @@
             </svg> NCM API CSV Script Manager</h1>
         </header>
 
-        <!-- Tabs -->
+        <!-- Script running indicator (shown at top while script executes) -->
+                <!-- Tabs -->
         <div class="tabs">
             <button class="tab-btn active" data-tab="csv">CSV Editor</button>
             <button class="tab-btn" data-tab="apikeys">API Keys</button>
@@ -289,7 +290,9 @@
                     <div class="script-selection">
                         <div class="script-info" id="scriptInfo">
                             <p>Script: <strong id="runScriptName">-</strong></p>
-                            <p>CSV File: <strong id="scriptCsvFile">-</strong></p>
+                            <label for="runScriptCsvSelect">CSV File:</label>
+                            <select id="runScriptCsvSelect" class="input-field"></select>
+                            <p class="script-csv-hint">Choose a CSV file, or select "No CSV Input" for report scripts.</p>
                         </div>
                     </div>
                     <div class="modal-actions">

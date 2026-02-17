@@ -18,14 +18,6 @@ CSV Format:
         first name,last name,email,role
         John,Doe,john.doe@example.com,full_access_user
         Jane,Smith,jane.smith@example.com,administrator
-
-Usage:
-    python "Create Users.py" <csv_file_path>
-
-Requirements:
-    - NCM API v3 token set as TOKEN or NCM_API_TOKEN environment variable
-      (Can be set in the API Keys tab of the CSV Script Manager)
-    - CSV file with required columns in the first row
 """
 
 import csv
@@ -54,18 +46,26 @@ ncm_client = ncm.NcmClientv3(api_key=token, log_events=True)
 
 def create_and_update_user(first_name, last_name, email, role):
     try:
-        # Create the user first
+        # Create the user first (API may return string or dict)
         response = ncm_client.create_user(first_name=first_name, last_name=last_name, email=email)
-        if response.startswith('ERROR'):
+        if isinstance(response, dict) and (response.get("data") or response.get("id")):
+            print(f"User {email} created successfully")
+        elif isinstance(response, str) and response.startswith("ERROR"):
             print(f"Error creating user {email} - does it already exist? {response}")
         else:
+            if response is not None and not isinstance(response, str):
+                print(f"  API response: {response}")
             print(f"User {email} created successfully")
 
-        # Then update their role
+        # Then update their role (API may return string or dict)
         response = ncm_client.update_user_role(email, role)
-        if response.startswith('ERROR'):
+        if isinstance(response, dict) and (response.get("data") or response.get("id")):
+            print(f"User {email} updated role to {role} successfully")
+        elif isinstance(response, str) and response.startswith("ERROR"):
             print(f"Error updating user {email} - {response}")
         else:
+            if response is not None and not isinstance(response, str):
+                print(f"  API response: {response}")
             print(f"User {email} updated role to {role} successfully")
     except Exception as e:
         print(f"Error processing {email}: {str(e)}")

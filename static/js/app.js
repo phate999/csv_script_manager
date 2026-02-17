@@ -781,18 +781,11 @@ class CSVEditor {
             return;
         }
         
-        if (!this.currentFilename) {
-            this.showNotification('No CSV file loaded', 'error');
-            return;
-        }
-        
         const runBtn = document.getElementById('confirmRunScriptBtn');
         const outputDiv = document.getElementById('scriptOutput');
         const outputStatus = document.getElementById('outputStatus');
         const outputContent = document.getElementById('outputContent');
         const outputError = document.getElementById('outputError');
-        
-        // Show output area
         outputDiv.style.display = 'block';
         outputStatus.className = 'output-status running';
         outputStatus.textContent = 'Running script...';
@@ -801,6 +794,8 @@ class CSVEditor {
         outputError.textContent = '';
         runBtn.disabled = true;
         
+        const csvSelect = document.getElementById('runScriptCsvSelect');
+        const selectedCsv = csvSelect ? csvSelect.value : this.currentFilename || '';
         fetch('/api/run-script', {
             method: 'POST',
             headers: {
@@ -808,7 +803,7 @@ class CSVEditor {
             },
             body: JSON.stringify({
                 script: scriptName,
-                csv_file: this.currentFilename
+                csv_file: selectedCsv
             })
         })
         .then(response => response.json())
@@ -990,6 +985,22 @@ if __name__ == '__main__':
         if (tabName === 'apikeys') {
             this.loadApiKeysStatus();
         }
+        // Refresh CSV list when switching to CSV tab (so new outputs appear without full reload)
+        if (tabName === 'csv') {
+            this.loadFileList();
+            // Auto-load last opened/saved CSV when switching to CSV tab, if no unsaved edits
+            if (!this.isDirty) {
+                fetch('/api/last-file')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.filename) {
+                            this.loadFile(data.filename);
+                        }
+                    })
+                    .catch(() => { /* ignore errors */ });
+            }
+        }
+
     }
     
     loadScriptsList() {
@@ -1084,13 +1095,8 @@ if __name__ == '__main__':
     }
     
     runScriptFromList(scriptName) {
-        if (!this.currentFilename) {
-            this.showNotification('Please load a CSV file first', 'error');
-            this.switchTab('csv');
-            return;
-        }
-        
-        // Check if there are unsaved changes
+        // Allow running scripts even if no CSV is currently loaded;
+        // user can choose a CSV or 'No CSV' in the Run Script modal.
         if (this.isDirty) {
             if (confirm('You have unsaved changes. Save before running the script?')) {
                 const savePromise = this.saveFile();
@@ -1114,9 +1120,50 @@ if __name__ == '__main__':
     
     executeScript(scriptName) {
         document.getElementById('runScriptName').textContent = scriptName;
-        document.getElementById('scriptCsvFile').textContent = this.currentFilename;
+        const csvSelect = document.getElementById('runScriptCsvSelect');
+        const outputDiv = document.getElementById('scriptOutput');
+        if (outputDiv) outputDiv.style.display = 'none';
+        
+        // Populate CSV dropdown: 'No CSV' + available files; preselect current file if any
+        if (csvSelect) {
+            csvSelect.innerHTML = '';
+            const noCsvOption = document.createElement('option');
+            noCsvOption.value = '__NO_CSV__';
+            noCsvOption.textContent = 'No CSV Input';
+            csvSelect.appendChild(noCsvOption);
+            fetch('/api/list')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(file => {
+                            const opt = document.createElement('option');
+                            opt.value = file.name;
+                            opt.textContent = file.name;
+                            csvSelect.appendChild(opt);
+                        });
+                    }
+                    // After listing files, try to default to last opened/saved CSV if available
+                    return fetch('/api/last-file');
+                })
+                .then(response => response.json())
+                .then(lastData => {
+                    const lastFile = lastData && lastData.filename;
+                    const preferred = lastFile || this.currentFilename || '';
+                    if (preferred && Array.from(csvSelect.options).some(opt => opt.value === preferred)) {
+                        csvSelect.value = preferred;
+                    } else {
+                        csvSelect.value = '__NO_CSV__';
+                    }
+                })
+                .catch(() => {
+                    // Ignore errors; user can still choose 'No CSV Input'
+                    if (!csvSelect.value) {
+                        csvSelect.value = '__NO_CSV__';
+                    }
+                });
+        }
+        
         document.getElementById('runScriptModal').classList.add('active');
-        document.getElementById('scriptOutput').style.display = 'none';
         
         // Store script name for execution
         this.currentScriptToRun = scriptName;

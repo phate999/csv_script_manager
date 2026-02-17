@@ -26,15 +26,6 @@ CSV Format (case-insensitive). Device/group columns (priority order):
     Example (by group, one resource per router in group):
         group_id,ncx_network_id,resource
         1234,abcd-efgh-ijkl,10.0.0.0/24
-
-Usage:
-    python "Create NCX Resources.py" <config_csv_path>
-
-Requirements:
-    - NCM Python helper module `ncm` available in PYTHONPATH
-    - NCM / NCX API access
-    - API keys and token via environment (or API Keys tab): X_ECM_API_ID, X_ECM_API_KEY,
-      X_CP_API_ID, X_CP_API_KEY, TOKEN or NCM_API_TOKEN
 """
 
 import csv

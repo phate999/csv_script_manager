@@ -9,7 +9,7 @@ before starting and creates a detailed timestamped log file of all operations.
 
 CSV Format:
     Required columns (case-insensitive, automatically detected):
-        - Router ID: one of "router_id", "router id", "id", "routerId", "router", or "routerid"
+        - Router ID: one of "id" (e.g. from NCM devices grid), "router_id", "router id", "routerId", "router", or "routerid"
     
     Example CSV:
         router_id
@@ -17,21 +17,6 @@ CSV Format:
         1234568
         id
         1234569
-
-Usage:
-    python "Unregister Routers Batch.py" <csv_file> [--batch-size BATCH_SIZE] [--delay DELAY]
-
-Options:
-    --batch-size: Number of routers to process per batch (default: 20)
-    --delay: Delay in seconds between batches (default: 3)
-
-Requirements:
-    - NCM API keys (X-CP-API-ID, X-CP-API-KEY, X-ECM-API-ID, X-ECM-API-KEY)
-      Set in script or as environment variables (X_CP_API_ID, X_CP_API_KEY, X_ECM_API_ID, X_ECM_API_KEY)
-    - CSV file with router IDs
-    - User confirmation required before unregistration begins
-
-Note: This operation is irreversible. A log file is created with timestamp for tracking results.
 """
 
 import csv
@@ -80,7 +65,7 @@ def read_router_ids_from_csv(csv_filename):
         print(f"Found columns in CSV: {', '.join(columns)}")
         
         # Try common column names (case-insensitive)
-        common_names = ['router_id', 'router id', 'id', 'routerId', 'router', 'routerid']
+        common_names = ['id', 'router_id', 'router id', 'routerId', 'router', 'routerid']
         id_column = None
         
         # Normalize column names for comparison (lowercase, strip spaces)

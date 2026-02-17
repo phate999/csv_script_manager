@@ -28,15 +28,6 @@ CSV Format (case-insensitive). Device/group columns (priority order):
     Example (by group name):
         group_name,ncx_network_id
         My Group,abcd-efgh-ijkl
-
-Usage:
-    python "Create NCX Sites.py" <config_csv_path>
-
-Requirements:
-    - NCM Python helper module `ncm` available in PYTHONPATH
-    - NCM / NCX API access
-    - API keys and token via environment (or API Keys tab): X_ECM_API_ID, X_ECM_API_KEY,
-      X_CP_API_ID, X_CP_API_KEY, TOKEN or NCM_API_TOKEN
 """
 
 import csv

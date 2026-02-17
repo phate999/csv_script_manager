@@ -879,6 +879,25 @@ body.tab-csv .toolbar {
 .output-status.running {
     background: #dbeafe;
     color: #1e40af;
+    position: relative;
+}
+
+/* Inline spinner inside output-status when running */
+.output-status.running::before {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    border: 2px solid rgba(37, 99, 235, 0.3);
+    border-top-color: #1e40af;
+    border-radius: 50%;
+    vertical-align: text-bottom;
+    animation: output-status-spin 0.7s linear infinite;
+}
+
+@keyframes output-status-spin {
+    to { transform: rotate(360deg); }
 }
 
 .output-status.success {

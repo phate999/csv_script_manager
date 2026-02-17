@@ -5,7 +5,8 @@ Create NCX IP subnet resources for each LAN on routers specified by router_id, g
 Uses the NCM v2 API to get each router's LANs and the NCM v3 API to create one exchange_ipsubnet_resource
 per LAN. The resource name follows "site_name lan_name" (e.g. "2200-Office Primary LAN"): the site name comes
 from the NCX site (attributes.name), and the LAN name from the NCM LAN API (name/description/interface_name/label)
-if present, otherwise "LAN 1", "LAN 2", etc. Spaces are allowed in names. The ip attribute is the LAN CIDR.
+if present, otherwise "LAN 1", "LAN 2", etc. Spaces are allowed in names. The ip attribute is the LAN CIDR. 
+LANs named "NCX DNS LAN" with IP 192.0.2.127/32 are skipped (reserved for NCX DNS).
 All inputs are read from a CSV file.
 
 CSV Format (case-insensitive). Device/group columns (priority order):
@@ -25,12 +26,6 @@ CSV Format (case-insensitive). Device/group columns (priority order):
         group_id,ncx_network_id,site_name
         1234,abcd-efgh-ijkl,My NCX Site
 
-Usage:
-    python "Create NCX LAN Resources.py" <config_csv_path>
-
-Requirements:
-    - NCM Python helper module `ncm` available in PYTHONPATH
-    - API keys and token via environment (or API Keys tab)
 """
 
 import csv
@@ -255,6 +250,9 @@ def create_ncx_lan_resources(
 
             any_failed = False
             for lan_display_name, cidr in lans:
+                # Skip NCX DNS LAN (reserved 192.0.2.127/32)
+                if lan_display_name.strip().lower() == "ncx dns lan" and cidr == "192.0.2.127/32":
+                    continue
                 # Resource name: "site_name lan_name" (e.g. "2200-Office Primary LAN"); spaces are allowed by API
                 name = f"{site_display_name} {lan_display_name}"
                 if len(name) < 3:
