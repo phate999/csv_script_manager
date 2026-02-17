@@ -11,14 +11,6 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
 - **NCM Library Integration**: Uses the `ncm` Python package for NCM API operations
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 
-## Screenshots
-
-<img width="1645" height="854" alt="image" src="https://github.com/user-attachments/assets/42b3be8d-9b11-45f9-85dc-2e7b6118a85c" />
-<img width="1645" height="854" alt="image" src="https://github.com/user-attachments/assets/22309051-02be-49c4-a320-81e72facd4c6" />
-<img width="1631" height="857" alt="image" src="https://github.com/user-attachments/assets/d8b540b5-bc0b-4e84-bcf7-144c4f74c284" />
-<img width="1631" height="857" alt="image" src="https://github.com/user-attachments/assets/11f94fab-3f0c-4538-bc05-7559ebdea62c" />
-
-
 ## Installation
 
 1. **Clone or download this repository**
@@ -64,6 +56,24 @@ A web-based CSV file editor and script manager for processing CSV files with Pyt
    ```
    http://localhost:8000
    ```
+
+## Screenshots
+
+Load and Edit CSV Files:
+<img width="1534" height="852" alt="image" src="https://github.com/user-attachments/assets/0aee60dd-0572-4059-8dfd-ccbeb47e424c" />
+
+Set API Keys:
+<img width="1534" height="852" alt="image" src="https://github.com/user-attachments/assets/ab4f81af-9b92-4fb0-b201-1079b8a0cc03" />
+
+Choose an Python Script:
+<img width="1534" height="853" alt="image" src="https://github.com/user-attachments/assets/5b0737ae-3a24-4078-b1ce-440b957b3db1" />
+<img width="1534" height="853" alt="image" src="https://github.com/user-attachments/assets/4b2d1dea-9283-4f81-9aae-adf89dc6f154" />
+
+Run it with CSV input:
+<img width="1534" height="853" alt="image" src="https://github.com/user-attachments/assets/83d4af15-faae-424a-8f3c-0a3b823f5752" />
+
+View and Save output:
+<img width="1534" height="853" alt="image" src="https://github.com/user-attachments/assets/43827639-1cc8-44d3-b0f5-51dc71657e5a" />
 
 ## Usage
 
